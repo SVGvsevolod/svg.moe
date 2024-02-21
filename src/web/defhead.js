@@ -4,4 +4,5 @@
  */
 export function defhead(a) {
     a.removeHeader('Connection')
+    a.removeHeader('Transfer-Encoding')
 }

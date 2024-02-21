@@ -1,14 +1,6 @@
 // Imports
 import { createServer } from 'node:http'
-import { defhead } from './web/defhead.js'
-import { handler } from './web/handler.js'
-import { Req } from './web/Req.js'
-
-// Global stuff
-global.web = {
-    defhead,
-    Req
-}
+import { handler } from './web/index.js'
 
 // Start HTTP (Web) Server
 createServer({
