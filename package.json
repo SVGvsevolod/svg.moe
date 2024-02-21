@@ -1,6 +1,10 @@
 {
+    "dependencies": {
+        "cookie": "0.6.0"
+    },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/SVGvsevolod/svg.moe.git"
-    }
+    },
+    "type": "module"
 }
