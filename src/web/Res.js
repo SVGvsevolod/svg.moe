@@ -63,7 +63,8 @@ export class Res {
                 ))
         }
         for (var i in Object.keys(this.headers))
-            this._res.setHeader(Object.keys(this.headers)[i], this.headers[Object.keys(this.headers)[i]])
+            this._res.setHeader(Object.keys(this.headers)[i],
+                this.headers[Object.keys(this.headers)[i]])
         web.defhead(this._res)
         this.push(null)
         this._str._read = () => {}
