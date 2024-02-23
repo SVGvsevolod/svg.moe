@@ -67,15 +67,19 @@ export class Res {
         web.defhead(this._res)
         this.push(null)
         this._str._read = () => {}
-        await pipeline(
-            this._str,
-            this.headers['Content-Encoding'] == 'br'
-            ? createBrotliDecompress()
-            : this.headers['Content-Encoding'] == 'deflate'
-                ? createDeflate()
-                : createGzip(),
-            this._res
-        )
+        try {
+            await pipeline(
+                this._str,
+                this.headers['Content-Encoding'] == 'br'
+                ? createBrotliDecompress()
+                : this.headers['Content-Encoding'] == 'deflate'
+                    ? createDeflate()
+                    : createGzip(),
+                this._res
+            )
+        } catch (a) {
+
+        }
         this._res.end()
     }
 }
