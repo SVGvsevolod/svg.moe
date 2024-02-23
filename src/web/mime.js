@@ -2,7 +2,7 @@ import { contentType } from "mime-types"
 /**
  * Generates content type string
  * @param {string} contenttype as extension
- * @returns 
+ * @returns {string} contenttype as header value
  */
 export function mime(a) {
     switch (a) {
