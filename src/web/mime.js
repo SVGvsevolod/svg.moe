@@ -1,5 +1,4 @@
 import { contentType } from "mime-types"
-
 /**
  * Generates content type string
  * @param {string} contenttype as extension

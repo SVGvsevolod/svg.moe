@@ -1,6 +1,5 @@
 import qstr from 'node:querystring'
 import cookie from 'cookie'
-
 /**
  * Custom request info container
  * @param {IncomingMessage} request
@@ -16,6 +15,10 @@ export function Req(a) {
                 && 'string' == typeof a.headers.cookie
                 ? cookie.parse(a.headers.cookie)
                 : undefined
+        },
+        encode: {
+            enumerable: true,
+            value: {}
         },
         endpoint: {
             enumerable: true,
@@ -60,6 +63,29 @@ export function Req(a) {
             value: 'string' == typeof a.url
                 ? a.url
                 : undefined
+        }
+    })
+    Object.defineProperties(this.encode, {
+        br: {
+            enumerable: true,
+            value: 'object' == typeof this.headers
+                && 'string' == typeof this.headers['accept-encoding']
+                ? this.headers['accept-encoding'].indexOf('br') > -1
+                : false
+        },
+        deflate: {
+            enumerable: true,
+            value: 'object' == typeof this.headers
+                && 'string' == typeof this.headers['accept-encoding']
+                ? this.headers['accept-encoding'].indexOf('deflate') > -1
+                : false
+        },
+        gzip: {
+            enumerable: true,
+            value: 'object' == typeof this.headers
+                && 'string' == typeof this.headers['accept-encoding']
+                ? this.headers['accept-encoding'].indexOf('gzip') > -1
+                : false
         }
     })
 }
