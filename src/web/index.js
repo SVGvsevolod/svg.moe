@@ -5,12 +5,12 @@ import { Cookies } from './Cookies.js'
 import { Req } from './Req.js'
 import { Res } from './Res.js'
 // Global stuff declaration
+Res.Cookies = Cookies
 global.web = {
     defhead,
     mime,
     Req,
     Res
 }
-web.Res.Cookies = Cookies
 // Exports
 export { handler } from './handler.js'
