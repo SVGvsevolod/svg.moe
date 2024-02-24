@@ -4,9 +4,7 @@
  * @param {ServerResponse} response
  */
 export function handler(a, b) {
-    const c = new web.Req(a),
-        d = new web.Res(b, c)
+    const c = web._req = new web.Req(a),
+        d = web._res = new web.Res(b, c)
     d.res()
-    web._req = c
-    web._res = d
 }
