@@ -2,3 +2,4 @@ node_modules
 ssl
 .DS_Store
 .env
+notes.txt

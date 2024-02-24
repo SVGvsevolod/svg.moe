@@ -51,7 +51,8 @@ export class Res {
     async res(a, b) {
         if ('number' == typeof parseInt(a) && !isNaN(parseInt(a)))
             this._res.statuscode = parseInt(a)
-        if ('object' == typeof b && 'string' == typeof b.mime)
+        if ('object' == typeof a && 'string' == typeof a.mime
+         || 'object' == typeof b && 'string' == typeof b.mime)
             this.headers['Content-Type'] = web.mime(b.mime)
         if (Object.keys(this.cookies).length) {
             this.headers['Set-Cookie'] = []
