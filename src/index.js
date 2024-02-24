@@ -1,8 +1,8 @@
 // Imports
 import http from 'node:http'
 import https from 'node:https'
-import { handler } from './web/index.js'
 import { config } from 'dotenv'
+import { handler } from './web/index.js'
 // Laoding env vars
 config()
 // Start HTTP (Web) Server
