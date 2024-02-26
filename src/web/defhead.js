@@ -1,6 +1,6 @@
 /**
  * Declaring default HTTP headers procedure
- * @param {ServerResponse} response
+ * @param {ServerResponse} a response
  */
 export function defhead(a) {
     a.removeHeader('Connection')

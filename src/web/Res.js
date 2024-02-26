@@ -4,8 +4,8 @@ import { createBrotliDecompress, createDeflate, createGzip } from 'node:zlib'
 import { serialize } from 'cookie'
 /**
  * Custom response handler
- * @param {ServerResponse} response
- * @param {Req} request but as custom info container
+ * @param {ServerResponse} a response
+ * @param {Req} b request but as custom info container
  */
 export class Res {
     constructor(a, b) {
@@ -19,6 +19,11 @@ export class Res {
             cookies: {
                 enumerable: true,
                 value: new web.Res.Cookies
+            },
+            finish: {
+                configurable: true,
+                enumerable: true,
+                value: false
             },
             headers: {
                 enumerable: true,
@@ -35,53 +40,78 @@ export class Res {
                         : 'gzip'
             }
         })
+        a.on('finish', () => {
+            Object.defineProperty(this, 'finish', {
+                enumerable: true,
+                value: true
+            })
+        })
     }
     /**
      * Pushing output stuff into readstream
-     * @param {*} stuff
+     * @param {*} a stuff
      */
     push(a) {
         this._str.push(a)
     }
     /**
+     * Redirect method
+     * @param {number|string} a statuscode
+     * @param {string} b destination
+     */
+    redir(a, b) {
+        if (!this.finish
+         && 'number' == typeof parseInt(a)
+         && !isNaN(a)
+         && parseInt(a) >= 300
+         && parseInt(a) <= 308
+         && 'string' == typeof b) {
+            this._res.statusCode = a
+            this._res.setHeader('Location', b)
+            this._res.end()
+        }
+    }
+    /**
      * Finish response method
-     * @param {number|string} statuscode
-     * @param {object} options
+     * @param {number|string} a statuscode
+     * @param {object} b options
      */
     async res(a, b) {
-        if ('number' == typeof parseInt(a) && !isNaN(parseInt(a)))
-            this._res.statuscode = parseInt(a)
-        if ('object' == typeof a && 'string' == typeof a.mime
-         || 'object' == typeof b && 'string' == typeof b.mime)
-            this.headers['Content-Type'] = web.mime(b.mime)
-        if (Object.keys(this.cookies).length) {
-            this.headers['Set-Cookie'] = []
-            for (var i in Object.keys(this.cookies))
-                this.headers['Set-Cookie'].push(serialize(
-                    Object.keys(this.cookies)[i],
-                    this.cookies[Object.keys(this.cookies)[i]].data,
-                    this.cookies[Object.keys(this.cookies)[i]]
-                ))
-        }
-        for (var i in Object.keys(this.headers))
-            this._res.setHeader(Object.keys(this.headers)[i],
-                this.headers[Object.keys(this.headers)[i]])
-        web.defhead(this._res)
-        this.push(null)
-        this._str._read = () => {}
-        try {
-            await pipeline(
-                this._str,
-                this.headers['Content-Encoding'] == 'br'
-                ? createBrotliDecompress()
-                : this.headers['Content-Encoding'] == 'deflate'
-                    ? createDeflate()
-                    : createGzip(),
-                this._res
-            )
-        } catch (a) {
+        if (!this.finish) {
+            if ('number' == typeof parseInt(a) && !isNaN(a))
+                this._res.statusCode = parseInt(a)
+            if ('object' == typeof a && 'string' == typeof a.mime
+             || 'object' == typeof b && 'string' == typeof b.mime)
+                this.headers['Content-Type'] = web.mime(b.mime)
+            if (Object.keys(this.cookies).length) {
+                this.headers['Set-Cookie'] = []
+                for (var i in Object.keys(this.cookies))
+                    this.headers['Set-Cookie'].push(serialize(
+                        Object.keys(this.cookies)[i],
+                        this.cookies[Object.keys(this.cookies)[i]].data,
+                        this.cookies[Object.keys(this.cookies)[i]]
+                    ))
+            }
+            for (var i in Object.keys(this.headers))
+                this._res.setHeader(Object.keys(this.headers)[i],
+                    this.headers[Object.keys(this.headers)[i]])
+            web.defhead(this._res)
+            this.push(null)
+            this._str._read = () => {}
+            try {
+                await pipeline(
+                    this._str,
+                    this.headers['Content-Encoding'] == 'br'
+                    ? createBrotliDecompress()
+                    : this.headers['Content-Encoding'] == 'deflate'
+                        ? createDeflate()
+                        : createGzip(),
+                    this._res
+                )
+            } catch (a) {
 
+            }
+            this._res.end()
         }
-        this._res.end()
     }
 }

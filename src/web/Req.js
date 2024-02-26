@@ -2,7 +2,7 @@ import qstr from 'node:querystring'
 import cookie from 'cookie'
 /**
  * Custom request info container
- * @param {IncomingMessage} request
+ * @param {IncomingMessage} a request
  */
 export function Req(a) {
     Object.defineProperties(this, {

@@ -1,7 +1,7 @@
 /**
  * HTTP requests handler
- * @param {IncomingMessage} request
- * @param {ServerResponse} response
+ * @param {IncomingMessage} a request
+ * @param {ServerResponse} b response
  */
 export function handler(a, b) {
     const c = web._req = new web.Req(a),

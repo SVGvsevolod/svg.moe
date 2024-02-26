@@ -4,9 +4,9 @@
 export class Cookies {
     /**
      * Add cookie method
-     * @param {string} name 
-     * @param {string} data 
-     * @param {object} attributes
+     * @param {string} a name 
+     * @param {string} b data 
+     * @param {object} c attributes (optional)
      */
     add(a, b, c) {
         if ('string' == typeof a && 'string' == typeof b) {
