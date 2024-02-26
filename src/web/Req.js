@@ -3,6 +3,7 @@ import cookie from 'cookie'
 /**
  * Custom request info container
  * @param {IncomingMessage} a request
+ * @returns {Req}
  */
 export function Req(a) {
     Object.defineProperties(this, {
@@ -20,6 +21,19 @@ export function Req(a) {
             configurable: true,
             enumerable: true,
             value: undefined
+        },
+        dest: {
+            enumerable: true,
+            value: new web.Conn(
+                'object' == typeof a.socket
+                && 'string' == typeof a.socket.localAddress
+                ? a.socket.localAddress
+                : undefined,
+                'object' == typeof a.socket
+                && 'number' == typeof a.socket.localPort
+                ? a.socket.localPort
+                : undefined
+            )
         },
         encode: {
             enumerable: true,
@@ -49,19 +63,18 @@ export function Req(a) {
                 ? qstr.parse(a.url.split('?')[1])
                 : undefined
         },
-        remAddr: {
+        src: {
             enumerable: true,
-            value: 'object' == typeof a.socket
+            value: new web.Conn(
+                'object' == typeof a.socket
                 && 'string' == typeof a.socket.remoteAddress
                 ? a.socket.remoteAddress
+                : undefined,
+                'object' == typeof a.socket
+                && 'number' == typeof a.socket.remotePort
+                ? a.socket.remotePort
                 : undefined
-        },
-        remFam: {
-            enumerable: true,
-            value: 'object' == typeof a.socket
-                && 'string' == typeof a.socket.remoteFamily
-                ? a.socket.remoteFamily
-                : undefined
+            )
         },
         url: {
             enumerable: true,
