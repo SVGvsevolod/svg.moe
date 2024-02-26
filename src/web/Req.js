@@ -16,6 +16,11 @@ export function Req(a) {
                 ? cookie.parse(a.headers.cookie)
                 : undefined
         },
+        data: {
+            configurable: true,
+            enumerable: true,
+            value: undefined
+        },
         encode: {
             enumerable: true,
             value: {}
@@ -87,5 +92,11 @@ export function Req(a) {
                 ? this.headers['accept-encoding'].indexOf('gzip') > -1
                 : false
         }
+    })
+    a.on('data', a => {
+        Object.defineProperty(this, 'data', {
+            enumerable: true,
+            value: a.toString()
+        })
     })
 }
