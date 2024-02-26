@@ -2,6 +2,7 @@
 import http from 'node:http'
 import https from 'node:https'
 import { config } from 'dotenv'
+import './util/index.js'
 import { handler } from './web/index.js'
 // Laoding env vars
 config()
