@@ -1,19 +1,34 @@
 export async function GET(a, b) {
-    if (a instanceof web.Req && b instanceof web.Res) {
-        switch (true) {
-            case /^\/$/.test(a.endpoint):
-                console.log('index')
-                break;
-            case /^\/favicon\.ico$/.test(a.endpoint):
-                console.log('favicon')
-                break;
-            case /^\/js\/sl\.js$/.test(a.endpoint):
-            case /^\/js\/sl\.min\.js$/.test(a.endpoint):
-                console.log('js/sl')
-                break;
-            default:
-                console.log('404')
-        }
-        b.res()
-    }
+    if (a instanceof web.Req && b instanceof web.Res)
+        if ('string' != typeof a.endpoint)
+            b.res(204)
+        else
+            switch (true) {
+                case /^\/$/.test(a.endpoint)
+                && 'object' == typeof a.headers
+                && 'string' == typeof a.headers.accept
+                && a.headers.accept.indexOf('text/html') > -1:
+                    b.res({
+                        mime: 'html'
+                    })
+                    break;
+                case /^\/favicon\.ico$/.test(a.endpoint)
+                && 'object' == typeof a.headers
+                && 'string' == typeof a.headers.accept
+                && a.headers.accept.indexOf('*/*') > -1:
+                    b.res()
+                    break;
+                case /^\/js\/sl\.js$/.test(a.endpoint)
+                && 'object' == typeof a.headers
+                && 'string' == typeof a.headers.accept
+                && a.headers.accept.indexOf('*/*') > -1:
+                case /^\/js\/sl\.min\.js$/.test(a.endpoint)
+                && 'object' == typeof a.headers
+                && 'string' == typeof a.headers.accept
+                && a.headers.accept.indexOf('*/*') > -1:
+                    b.res()
+                    break;
+                default:
+                    b.res(204)
+            }
 }

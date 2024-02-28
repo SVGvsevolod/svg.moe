@@ -82,7 +82,7 @@ export class Res {
                 this._res.statusCode = parseInt(a)
             if ('object' == typeof a && 'string' == typeof a.mime
              || 'object' == typeof b && 'string' == typeof b.mime)
-                this.headers['Content-Type'] = web.mime(b.mime)
+                this.headers['Content-Type'] = web.mime(a.mime || b.mime)
             if (Object.keys(this.cookies).length) {
                 this.headers['Set-Cookie'] = []
                 for (var i in Object.keys(this.cookies))
