@@ -6,20 +6,13 @@ import { mkdir, writeFile } from 'node:fs/promises'
  */
 export async function err(a) {
     if (a instanceof Error && 'string' == typeof a.stack) {
-        let b = new Date,
-            c = b.getUTCFullYear() +
-         ' ' + (b.getUTCMonth() + 1).toString().padStart(2, '0') +
-         ' ' + b.getUTCDate().toString().padStart(2, '0'),
-            d = b.getUTCHours().toString().padStart(2, '0') +
-         ' ' + b.getUTCMinutes().toString().padStart(2, '0') +
-         ' ' + b.getUTCSeconds().toString().padStart(2, '0') +
-         ' ' + b.getUTCMilliseconds().toString().padStart(3, '0')
+        let b = log.name()
         try {
-            if (!existsSync('logs/err/' + c))
-                await mkdir('logs/err/' + c, {
+            if (!existsSync('logs/err/' + b[0]))
+                await mkdir('logs/err/' + b[0], {
                     recursive: true
                 })
-            await writeFile(`logs/err/${c}/${d}.txt`,
+            await writeFile(`logs/err/${b[0]}/${b[1]}.txt`,
             a.stack + ('number' == typeof a.errno ? '\nERRNO: ' + a.errno : ''),
             {
                 encoding: 'utf8'

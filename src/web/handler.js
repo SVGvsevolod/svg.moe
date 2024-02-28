@@ -5,7 +5,9 @@
  */
 export async function handler(a, b) {
     const c = new web.Req(a),
-        d = new web.Res(b, c)
-    await d.res()
+        d = new web.Res(b, c),
+        e = await import('../endpoints/index.js?' + new Date)
+    if ('function' == typeof e[c.method])
+        await e[c.method](c, d)
     log.req(c, d)
 }
