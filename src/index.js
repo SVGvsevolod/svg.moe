@@ -3,10 +3,13 @@ import http from 'node:http'
 import https from 'node:https'
 import { config } from 'dotenv'
 import './log/index.js'
+import './sys/index.js'
 import './util/index.js'
 import { handler } from './web/index.js'
 // Laoding env vars
 config()
+// Declaring resources
+new sys.Res('js/sl', 'node_modules/simple-landscape/sl.min.js')
 // Start HTTP (Web) Server
 http.createServer({
     keepAliveTimeout: 0
