@@ -5,7 +5,7 @@
  * @returns 
  */
 export function from(a) {
-    return (new TextDecoder).decode(Uint8Array.from(atob(a),m=>m.codePointAt(0)))
+    return (new TextDecoder).decode(Uint8Array.from(atob(a),a=>a.codePointAt(0)))
 }
 /**
  * Encode to Base64
