@@ -52,7 +52,10 @@ export class Res {
      * @param {*} a stuff
      */
     push(a) {
-        this._str.push(a)
+        if (a instanceof sys.Res)
+            this._str.push(a.cache)
+        else
+            this._str.push(a)
     }
     /**
      * Redirect method
