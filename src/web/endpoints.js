@@ -9,20 +9,11 @@ export async function GET(a, b) {
                     mime: 'html'
                 })
                 break;
-            case /^\/favicon\.ico$/.test(a.endpoint)
-                && 'object' == typeof a.headers
-                && 'string' == typeof a.headers.accept
-                && a.headers.accept.indexOf('*/*') > -1:
+            case /^\/favicon\.ico$/.test(a.endpoint):
                 b.res()
                 break;
-            case /^\/js\/sl\.js$/.test(a.endpoint)
-                && 'object' == typeof a.headers
-                && 'string' == typeof a.headers.accept
-                && a.headers.accept.indexOf('*/*') > -1:
-            case /^\/js\/sl\.min\.js$/.test(a.endpoint)
-                && 'object' == typeof a.headers
-                && 'string' == typeof a.headers.accept
-                && a.headers.accept.indexOf('*/*') > -1:
+            case /^\/js\/sl\.js$/.test(a.endpoint):
+            case /^\/js\/sl\.min\.js$/.test(a.endpoint):
                 b.push(sys.res['js/sl'])
                 b.res({
                     mime: 'js'
