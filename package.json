@@ -1,8 +1,11 @@
 {
     "dependencies": {
+        "clean-css": "1.0.0",
         "cookie": "0.6.0",
         "dotenv": "latest",
+        "geoip-lite": "latest",
         "mime-types": "2.1.35",
+        "node-json2html": "1.2.0",
         "simple-landscape": "1.0.0"
     },
     "repository": {
