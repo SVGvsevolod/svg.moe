@@ -14,7 +14,13 @@ export async function GET(a, b) {
                 break;
             case /^\/js\/sl\.js$/.test(a.endpoint):
             case /^\/js\/sl\.min\.js$/.test(a.endpoint):
-                b.push(sys.res['js/sl'])
+                b.push(sys.res['js/7'])
+                b.res({
+                    mime: 'js'
+                })
+                break;
+            case /^\/js\/pixivimageredirect\.user\.js$/.test(a.endpoint):
+                b.push(sys.res['js/12'])
                 b.res({
                     mime: 'js'
                 })

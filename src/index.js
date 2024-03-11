@@ -9,7 +9,8 @@ import { handler } from './web/index.js'
 // Laoding env vars
 config()
 // Declaring resources
-new sys.Res('js/sl', 'node_modules/simple-landscape/sl.min.js')
+new sys.Res('js/7', 'node_modules/simple-landscape/sl.min.js')
+new sys.Res('js/12', 'public/vault/12/.user.js')
 // Start HTTP (Web) Server
 http.createServer({
     keepAliveTimeout: 0
