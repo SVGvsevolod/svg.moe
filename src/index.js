@@ -2,6 +2,7 @@
 import http from 'node:http'
 import https from 'node:https'
 import { config } from 'dotenv'
+import 'node-json2html'
 import './log/index.js'
 import './sys/index.js'
 import './util/index.js'
