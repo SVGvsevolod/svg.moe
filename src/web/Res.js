@@ -1,6 +1,3 @@
-import { Readable } from 'node:stream'
-import { pipeline } from 'node:stream/promises'
-import { createBrotliDecompress, createDeflate, createGzip } from 'node:zlib'
 import { serialize } from 'cookie'
 /**
  * Custom response handler
@@ -14,7 +11,7 @@ export class Res {
                 value: a
             },
             _str: {
-                value: new Readable
+                value: new stream.Readable
             },
             cookies: {
                 enumerable: true,
@@ -27,7 +24,7 @@ export class Res {
             },
             headers: {
                 enumerable: true,
-                value: {}
+                value: Object.create(null)
             }
         })
         Object.defineProperties(this.headers, {
@@ -85,7 +82,11 @@ export class Res {
                 this._res.statusCode = parseInt(a)
             if ('object' == typeof a && 'string' == typeof a.mime
              || 'object' == typeof b && 'string' == typeof b.mime)
-                this.headers['Content-Type'] = web.mime(a.mime || b.mime)
+                try {
+                    this.headers['Content-Type'] = web.mime(a.mime || b.mime)
+                } catch (a) {
+                    log.err(a)
+                }
             if (Object.keys(this.cookies).length) {
                 this.headers['Set-Cookie'] = []
                 for (var i in Object.keys(this.cookies))
@@ -102,17 +103,17 @@ export class Res {
             this.push(null)
             this._str._read = () => {}
             try {
-                await pipeline(
+                await stream.promises.pipeline(
                     this._str,
                     this.headers['Content-Encoding'] == 'br'
-                    ? createBrotliDecompress()
+                    ? zlib.createBrotliDecompress()
                     : this.headers['Content-Encoding'] == 'deflate'
-                        ? createDeflate()
-                        : createGzip(),
+                        ? zlib.createDeflate()
+                        : zlib.createGzip(),
                     this._res
                 )
             } catch (a) {
-
+                log.err(a)
             }
             this._res.end()
         }

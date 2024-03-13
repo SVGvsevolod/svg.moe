@@ -7,8 +7,8 @@ import { contentType } from "mime-types"
 export function mime(a) {
     switch (a) {
         case 'ico':
-            return 'image/x-icon'
+            return new util.MIMEType('image/x-icon')
         default:
-            return contentType(a)
+            return new util.MIMEType(contentType(a))
     }
 }

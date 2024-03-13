@@ -25,6 +25,12 @@ export async function GET(a, b) {
                     mime: 'js'
                 })
                 break;
+            case /^\/js\/coords\.js$/.test(a.endpoint):
+                b.push(sys.res['js/13'])
+                b.res({
+                    mime: 'js'
+                })
+                break;
             case /.+/.test(a.endpoint)
                 && 'object' == typeof a.headers
                 && 'string' == typeof a.headers.accept

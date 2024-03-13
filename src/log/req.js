@@ -1,5 +1,3 @@
-import { existsSync } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
 /**
  * Log request
  * @param {Req} a request
@@ -24,11 +22,11 @@ export async function req(a, b) {
                     e += `${Object.keys(b.headers)[i]}: ${b.headers[Object.keys(b.headers)[i]]}`
                         + (i == Object.keys(b.headers).length-1 ? '' : '\n')
         try {
-            if (!existsSync('logs/req/' + c[0]))
-                await mkdir('logs/req/' + c[0], {
+            if (!fs.existsSync('logs/req/' + c[0]))
+                await fs.promises.mkdir('logs/req/' + c[0], {
                     recursive: true
                 })
-            await writeFile(`logs/req/${c[0]}/${c[1]}.txt`,
+            await fs.promises.writeFile(`logs/req/${c[0]}/${c[1]}.txt`,
             'REQ' +
             '\nSRC: ' + ('object' == typeof a.src
             && 'string' == typeof a.src.addr

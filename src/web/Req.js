@@ -1,5 +1,4 @@
-import qstr from 'node:querystring'
-import cookie from 'cookie'
+import { parse } from 'cookie'
 /**
  * Custom request info container
  * @param {IncomingMessage} a request
@@ -14,7 +13,7 @@ export function Req(a) {
             enumerable: true,
             value: 'object' == typeof a.headers
                 && 'string' == typeof a.headers.cookie
-                ? cookie.parse(a.headers.cookie)
+                ? parse(a.headers.cookie)
                 : undefined
         },
         data: {
@@ -37,7 +36,7 @@ export function Req(a) {
         },
         encode: {
             enumerable: true,
-            value: {}
+            value: Object.create(null)
         },
         endpoint: {
             enumerable: true,
@@ -60,7 +59,7 @@ export function Req(a) {
         qargs: {
             enumerable: true,
             value: 'string' == typeof a.url
-                ? qstr.parse(a.url.split('?')[1])
+                ? querystring.parse(a.url.split('?')[1])
                 : undefined
         },
         src: {
@@ -108,6 +107,7 @@ export function Req(a) {
     })
     a.on('data', a => {
         Object.defineProperty(this, 'data', {
+            configurable: true,
             enumerable: true,
             value: a.toString()
         })

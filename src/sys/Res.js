@@ -1,5 +1,3 @@
-import { existsSync, watch } from 'node:fs'
-import { readFile } from 'node:fs/promises'
 /**
  * Resource handler
  * @param {string} a name
@@ -16,7 +14,7 @@ export class Res {
         if ('object' == typeof sys.res && 'string' == typeof a && a.length && 'string' == typeof b) {
             switch (c) {
                 default:
-                    if (existsSync(b)) {
+                    if (fs.existsSync(b)) {
                         Object.defineProperties(this, {
                             cache: {
                                 configurable: true,
@@ -39,7 +37,7 @@ export class Res {
                             enumerable: true,
                             value: this
                         })
-                        this.#_w = watch(b, function(a, b) {
+                        this.#_w = fs.watch(b, function(a, b) {
                             if ('change' == a && this._res.path.indexOf(b) > -1)
                                 sys.Res.load(this._res)
                         })
@@ -59,7 +57,7 @@ export class Res {
                 default:
                     Object.defineProperty(a, 'cache', {
                         configurable: true,
-                        value: (await readFile(a.path)).toString()
+                        value: (await fs.promises.readFile(a.path)).toString()
                     })
             }
     }

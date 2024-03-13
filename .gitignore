@@ -1,6 +1,7 @@
 logs
 node_modules
 public/vault/12/.user.js
+public/vault/13/.js
 ssl
 .DS_Store
 .env
